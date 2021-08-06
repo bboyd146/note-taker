@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const fs = require("fs");
 const notesData = require('./db/db.json');
+const { readFromFile, writeToFile, readAndAppend } = require('./assets/js/helper');
+const { v4: uuidv4 } = require('uuid');
 
 const PORT = process.env.port || 3001;
 
@@ -28,6 +30,7 @@ app.get('/api/notes', (req, res) => {
 
 app.post("/api/notes", (req, res) => {
 console.log(req.body)
+const { title, text} = req.body;
 
     fs.writeFile("./db/db.json", JSON.stringify(notesData), () => {
         res.json(notesData);
