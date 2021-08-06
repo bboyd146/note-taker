@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const { clog } = require('./middleware/clog');
 const api = require('./public/index.html');
 
 const PORT = process.env.port || 3001;
@@ -21,8 +20,8 @@ app.get('/', (req, res) =>
 );
 
 // GET Route for feedback page
-app.get('/feedback', (req, res) =>
-    res.sendFile(path.join(__dirname, '/public/pages/feedback.html'))
+app.get('/notes', (req, res) =>
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/pages/404.html')));
