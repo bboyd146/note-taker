@@ -25,7 +25,6 @@ app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 app.get('/api/notes', (req, res) => {
-    console.log(typeof notesData, notesData)
     readFromFile('./db/db.json');
     res.json(notesData);
 });
@@ -48,8 +47,28 @@ app.post("/api/notes", (req, res) => {
 });
 
 app.delete('/api/notes/:id', (req, res) => {
+    const id = req.params.id;
+    readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+      // Make a new array of all tips except the one with the ID provided in the URL
+      const result = json.filter((note) => note.id !== id);
 
+      // Save that array to the filesystem
+      writeToFile('./db/db.json', result);
+
+      // Respond to the DELETE request
+      res.json(`Item ${id} has been deleted 🗑️`);
+    });
+    // const index = notesData.findIndex((note, index) => note.id == id);
     
+    // // removing from array
+    // notesData.splice(index, 1)
+
+    // // writeToFile("./db/db.json", filteredJsonData);
+    // // res.json(results)
+    // res.json(`Note "${id}" has been deleted`);
+    // return res.send();
 });
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
