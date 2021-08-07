@@ -48,27 +48,22 @@ app.post("/api/notes", (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
     const id = req.params.id;
+    const index = notesData.findIndex((note) => note.id == id);
+    // removing from array
+    notesData.splice(index, 1)
     readFromFile('./db/db.json')
-    .then((data) => JSON.parse(data))
-    .then((json) => {
-      // Make a new array of all tips except the one with the ID provided in the URL
-      const result = json.filter((note) => note.id !== id);
+        .then((data) => JSON.parse(data))
+        .then((json) => {
+            // Make a new array of all tips except the one with the ID provided in the URL
+            const result = json.filter((note) => note.id !== id);
 
-      // Save that array to the filesystem
-      writeToFile('./db/db.json', result);
+            // Save that array to the filesystem
+            writeToFile('./db/db.json', result);
 
-      // Respond to the DELETE request
-      res.json(`Item ${id} has been deleted 🗑️`);
-    });
-    // const index = notesData.findIndex((note, index) => note.id == id);
-    
-    // // removing from array
-    // notesData.splice(index, 1)
+            // Respond to the DELETE request
+            res.json(`Item ${id} has been deleted 🗑️`);
+        });
 
-    // // writeToFile("./db/db.json", filteredJsonData);
-    // // res.json(results)
-    // res.json(`Note "${id}" has been deleted`);
-    // return res.send();
 });
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
