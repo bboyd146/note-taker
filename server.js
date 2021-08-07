@@ -15,10 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// GET Route for homepage
-// app.get('/', (req, res) =>
-//     res.sendFile(path.join(__dirname, '/public/index.html'))
-// );
 
 // GET Route for notes page
 app.get('/notes', (req, res) =>
@@ -54,7 +50,7 @@ app.delete('/api/notes/:id', (req, res) => {
     readFromFile('./db/db.json')
         .then((data) => JSON.parse(data))
         .then((json) => {
-            // Make a new array of all tips except the one with the ID provided in the URL
+            // Make a new array of all notes except the one with the ID provided in the URL
             const result = json.filter((note) => note.id !== id);
 
             // Save that array to the filesystem
