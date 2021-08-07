@@ -26,19 +26,18 @@ app.get('/notes', (req, res) =>
 );
 app.get('/api/notes', (req, res) => {
     console.log(typeof notesData, notesData)
+    readFromFile('./db/db.json');
     res.json(notesData);
 });
 
 app.post("/api/notes", (req, res) => {
-    console.log(req.body)
     const { title, text } = req.body;
     if (req.body) {
         const newNote = {
             title,
             text,
-            tip_id: uuidv4(),
+            id: uuidv4(),
         };
-        console.log(newNote.title, req.body.title)
         readAndAppend(newNote, './db/db.json');
         res.json(`Note added successfully 🚀`);
     } else {
