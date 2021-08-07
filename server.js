@@ -39,11 +39,17 @@ app.post("/api/notes", (req, res) => {
             id: uuidv4(),
         };
         readAndAppend(newNote, './db/db.json');
+        res.json(notesData.push(newNote));
         res.json(`Note added successfully 🚀`);
     } else {
         res.error('Error in adding tip');
     }
 
+});
+
+app.delete('/api/notes/:id', (req, res) => {
+
+    
 });
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
